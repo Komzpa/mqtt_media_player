@@ -52,7 +52,8 @@ Publish a JSON configuration message to `homeassistant/media_player/{device_id}/
   "command_next_payload": "Next",
   "command_previous_topic": "myplayer/previous",
   "command_previous_payload": "Previous",
-  "command_playmedia_topic": "myplayer/playmedia"
+  "command_playmedia_topic": "myplayer/playmedia",
+  "command_seek_topic": "myplayer/seek"
 }
 ```
 
@@ -90,6 +91,7 @@ Publish a JSON configuration message to `homeassistant/media_player/{device_id}/
 | `command_previous_topic` | Skip to previous track command topic | `myplayer/previous` | `Previous` *(or `command_previous_payload`)* |
 | `command_previous_payload` | Payload sent on previous track command | - | `Previous` *(default)* |
 | `command_playmedia_topic` | Play media command topic | `myplayer/playmedia` | JSON `{"media_type": ..., "media_id": ...}` |
+| `command_seek_topic` | Seek to a position in the current media | `myplayer/seek` | Position as a number, commonly seconds from the start |
 
 ### State Values
 

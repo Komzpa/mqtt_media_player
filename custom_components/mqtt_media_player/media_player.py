@@ -191,6 +191,7 @@ class MQTTMediaPlayer(MediaPlayerEntity):
             "previous_topic": config.get("command_previous_topic"),
             "previous_payload": config.get("command_previous_payload", "Previous"),
             "playmedia_topic": config.get("command_playmedia_topic"),
+            "seek_topic": config.get("command_seek_topic"),
         }
 
         # Unsubscribe from subscribed topics
@@ -245,6 +246,8 @@ class MQTTMediaPlayer(MediaPlayerEntity):
             features |= MediaPlayerEntityFeature.VOLUME_MUTE
         if self._cmd_topics.get("playmedia_topic"):
             features |= MediaPlayerEntityFeature.PLAY_MEDIA
+        if self._cmd_topics.get("seek_topic"):
+            features |= MediaPlayerEntityFeature.SEEK
         return features
 
     @property
@@ -425,6 +428,11 @@ class MQTTMediaPlayer(MediaPlayerEntity):
         """Send previous track command via MQTT."""
         if topic := self._cmd_topics.get("previous_topic"):
             await async_publish(self._hass, topic, self._cmd_topics.get("previous_payload", "Previous"))
+
+    async def async_media_seek(self, position):
+        """Seek to a position in the current media via MQTT."""
+        if topic := self._cmd_topics.get("seek_topic"):
+            await async_publish(self._hass, topic, position)
 
     async def async_set_volume_level(self, volume):
         """Set the volume level via MQTT."""
